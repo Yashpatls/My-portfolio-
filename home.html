@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Yash — Portfolio</title>
+  <style>
+        :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#0b76ef;
+      --glass: rgba(255,255,255,0.04);
+      --muted:#94a3b8;
+      --radius:14px;
+      --container:1100px;
+      --ani-speed:700ms;
+      --blur: 8px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg,#071124 0%, #071634 60%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    .card {
+  padding: 22px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(11,118,239,0.12);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center; /* center content */
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(11,118,239,0.25);
+}
+
+.card strong {
+  display: block;
+  font-size: 18px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.card .muted {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+    header{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(90deg, rgba(7,17,36,0.6), rgba(7,22,36,0.4));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .nav-inner{max-width:var(--container);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px}
+    .brand{font-weight:700;letter-spacing:0.6px}
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    nav a{color:var(--muted);text-decoration:none;padding:8px;border-radius:8px;font-weight:600;transition:0.3s}
+    nav a:hover{color:var(--accent);background:rgba(11,118,239,0.06)}
+    .hamburger{display:none}
+
+    main{max-width:var(--container);margin:36px auto;padding:24px}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center;margin-bottom:48px}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:28px;border-radius:16px;box-shadow:0 6px 30px rgba(2,6,23,0.6);backdrop-filter: blur(var(--blur));}
+    .title{font-size:clamp(24px,3.2vw,40px);margin:0 0 12px}
+    .subtitle{color:var(--muted);margin:0 0 18px}
+    .cta{display:inline-flex;gap:12px}
+    .btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(11,118,239,0.15);transition:0.3s}
+    .btn:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(11,118,239,0.3)}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    .profile-photo{width:100%;height:100%;max-width:380px;border-radius:14px;overflow:hidden;display:block;margin:0 auto;box-shadow:0 16px 50px rgba(2,6,23,0.6);transform:translateY(0);}
+    .profile-photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* sections */
+    section{margin-bottom:36px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:0.35s ease;cursor:pointer}
+    .card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 8px 25px rgba(11,118,239,0.25);border-color:rgba(11,118,239,0.3)}
+    .muted{color:var(--muted);font-size:14px}
+
+    /* About with second image */
+    .about{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:center}
+    .about .about-img{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04);transition:0.35s}
+    .about .about-img:hover{transform:scale(1.05);box-shadow:0 12px 30px rgba(11,118,239,0.25)}
+
+    /* Projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .project{position:relative;overflow:hidden;border-radius:12px;padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03);transition:0.35s}
+    .project:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 10px 28px rgba(11,118,239,0.25);border-color:rgba(11,118,239,0.3)}
+    .project h3{margin:0 0 6px}
+    .project p{margin:0 0 10px;color:var(--muted);font-size:14px}
+    .project .tech{font-size:13px;color:var(--muted);margin-bottom:10px}
+    .project a{display:inline-block;text-decoration:none;padding:8px 10px;border-radius:8px;background:rgba(11,118,239,0.08);color:var(--accent);font-weight:700;transition:0.3s}
+    .project a:hover{background:var(--accent);color:#fff}
+
+    /* skills */
+    .skill{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));transition:0.35s;cursor:pointer}
+    .skill:hover{transform:scale(1.03);background:rgba(11,118,239,0.08);box-shadow:0 6px 18px rgba(11,118,239,0.2)}
+    .bar{height:8px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;margin-left:12px;flex:1}
+    .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#2dd4bf);border-radius:10px;transition:width 900ms cubic-bezier(.2,.9,.2,1)}
+
+    /* contact */
+    .contact-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    input,textarea{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:12px;border-radius:8px;color:inherit;transition:0.3s}
+    input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(11,118,239,0.3);outline:none}
+
+    footer{padding:28px;text-align:center;color:var(--muted)}
+
+    /* reveal animations */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity var(--ani-speed) ease,var(--ani-speed) transform ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* micro animations */
+    .float{animation:floaty 5s ease-in-out infinite}
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+
+    /* responsive */
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr 320px}
+      .grid-3{grid-template-columns:repeat(2,1fr)}
+      .projects-grid{grid-template-columns:repeat(2,1fr)}
+      .about{grid-template-columns:1fr 300px}
+    }
+    @media(max-width:720px){
+      nav ul{display:none}
+      .hamburger{display:block}
+      .hero{grid-template-columns:1fr;padding:14px}
+      .about{grid-template-columns:1fr}
+      .projects-grid{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .contact-form{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="brand">Yash<span style="color:var(--accent)">.</span></div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger btn ghost">Menu</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-card reveal">
+        <h1 class="title">Hi, I'm Yash — <span style="color:var(--accent)">B.Tech (IT) Student</span></h1>
+        <p class="subtitle">Currently pursuing B.Tech in Information Technology. I build clean web experiences, small apps and learn new tech every day.</p>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="cta">
+            <a class="btn" href="#projects">See projects</a>
+            
+          </div>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:12px;color:var(--muted);font-size:13px">
+          <div class="muted"><strong>Location</strong><div>Ahmedabad / India</div></div>
+          <div class="muted"><strong>Education</strong><div>B.Tech (IT) — current • ICT diploma completed</div></div>
+        </div>
+      </div>
+
+      <aside class="profile-photo float reveal">
+        <!-- main uploaded photo (put your file in the same folder or adjust path) -->
+        <img src="yash.jpg" alt="Yash photo">
+      </aside>
+    </section>
+
+    <section id="about" class="about reveal">
+      <div>
+        <h2>About me</h2>
+        <p class="muted">
+          I'm currently studying B.Tech in Information Technology and previously completed a diploma in ICT.
+          I focus on web development, app fundamentals, and practical projects that help me learn. My approach:
+          plan → prototype → build → test. I'm available for internships and small freelance projects.
+        </p>
+
+        <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">
+          <div class="card">
+            <strong>Education</strong>
+            <div class="muted">B.Tech — Information Technology (ongoing)<br>ICT — Diploma (completed)</div>
+          </div>
+          <div class="card">
+            <strong>Tools</strong>
+            <div class="muted">HTML, CSS, JS, React, Node, Git, Figma</div>
+          </div>
+         
+        </div>
+      </div>
+    </section><br>
+
+    <section id="projects" class="reveal">
+      <h2>Projects</h2>
+      <div class="projects-grid">
+        <!-- Project cards now show details only (no images). Replace content with your own. -->
+        <article class="project card">
+          <h3>Personal Portfolio</h3>
+          <p>A responsive single-page portfolio built with HTML, CSS and vanilla JS. Features: responsive layout, reveal animations, and contact form.</p>
+          <div class="tech">Tech: HTML • CSS • JavaScript</div>
+          
+        </article>
+
+        <article class="project card">
+          <h3>Login & Signup UI</h3>
+          <p>User authentication UI with client-side validation and clean UX. Built to be easily integrated with backend auth later.</p>
+          <div class="tech">Tech: HTML • CSS • JS</div>
+          
+        </article>
+
+        <article class="project card">
+          <h3>Billing / Invoice Template</h3>
+          <p>A4 print-ready billing template optimized for printing. Uses proper page size and styling for invoices and receipts.</p>
+          <div class="tech">Tech: HTML • CSS (print)</div>
+          
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="skill">
+          <div style="min-width:90px">HTML & CSS</div>
+          <div class="bar"><i style="width:92%"></i></div>
+        </div>
+        <div class="skill">
+          <div style="min-width:90px">JavaScript</div>
+          <div class="bar"><i style="width:80%"></i></div>
+        </div>
+        <div class="skill">
+          <div style="min-width:90px">React</div>
+          <div class="bar"><i style="width:70%"></i></div>
+        </div>
+        <div class="skill">
+          <div style="min-width:90px">Git & CLI</div>
+          <div class="bar"><i style="width:78%"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2>Contact</h2>
+      <div class="card contact-form">
+        <input placeholder="Your name" />
+        <input placeholder="Your email" />
+        <textarea placeholder="Message" rows="4"></textarea>
+        <div style="display:flex;align-items:center;justify-content:flex-end">
+          <button class="btn">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <div>© <strong>Yash</strong> — Built with ❤️ • Available for internships & freelance</div>
+    </footer>
+  </main>
+
+  <script>
+    // small reveal on scroll
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('visible');
+      })
+    },{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // simple hamburger toggle for small screens
+    document.querySelector('.hamburger').addEventListener('click',()=>{
+      const ul = document.querySelector('nav ul');
+      if(ul.style.display==='flex') ul.style.display='none'; else ul.style.display='flex';
+      ul.style.flexDirection='column'; ul.style.position='absolute'; ul.style.top='64px'; ul.style.right='24px'; ul.style.background='rgba(2,6,23,0.7)'; ul.style.padding='12px'; ul.style.borderRadius='12px';
+    });
+
+    // animate skill bars when the #skills section becomes visible
+    const skillsSection = document.getElementById('skills');
+    if (skillsSection) {
+      const skillsObs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.querySelectorAll('.bar > i').forEach(i=>{
+              const w = i.style.width;
+              i.style.width = '0%';
+              setTimeout(()=> i.style.width = w, 200);
+            });
+            // stop observing once animated
+            skillsObs.unobserve(e.target);
+          }
+        })
+      },{threshold:0.2});
+      skillsObs.observe(skillsSection);
+    }
+  </script>
+</body>
+</html>

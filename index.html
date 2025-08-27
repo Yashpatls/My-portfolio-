@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login / Sign Up</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:"Segoe UI",Inter,sans-serif;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      background:#0f172a; /* dark background */
+    }
+
+    /* Floating background shapes */
+    .bg{
+      position:absolute;
+      width:100%;
+      height:100%;
+      top:0;left:0;
+      overflow:hidden;
+      z-index:-1;
+    }
+    .bg span{
+      position:absolute;
+      display:block;
+      width:20px;height:20px;
+      background:rgba(255,255,255,0.15);
+      border-radius:50%;
+      bottom:-50px;
+      animation: fly 20s linear infinite;
+    }
+    .bg span:nth-child(1){left:10%;width:40px;height:40px;animation-duration:15s;}
+    .bg span:nth-child(2){left:20%;width:25px;height:25px;animation-duration:12s;animation-delay:2s;}
+    .bg span:nth-child(3){left:35%;width:15px;height:15px;animation-duration:18s;animation-delay:4s;}
+    .bg span:nth-child(4){left:50%;width:60px;height:60px;animation-duration:25s;animation-delay:1s;}
+    .bg span:nth-child(5){left:65%;width:20px;height:20px;animation-duration:14s;animation-delay:3s;}
+    .bg span:nth-child(6){left:80%;width:35px;height:35px;animation-duration:20s;animation-delay:5s;}
+    .bg span:nth-child(7){left:90%;width:15px;height:15px;animation-duration:16s;animation-delay:7s;}
+    .bg span:nth-child(8){left:75%;width:50px;height:50px;animation-duration:30s;animation-delay:2s;}
+
+    @keyframes fly{
+      0%{transform:translateY(0) rotate(0deg);opacity:1;}
+      100%{transform:translateY(-110vh) rotate(720deg);opacity:0;}
+    }
+
+    .wrap{
+      width:100%;
+      max-width:420px;
+      background:rgba(255,255,255,0.95);
+      padding:28px;
+      border-radius:16px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+      transition:all 0.4s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    h2{text-align:center;margin-bottom:12px;color:#1e293b}
+    label{display:block;margin-top:12px;font-size:13px;color:#475569}
+    input{
+      width:100%;
+      padding:10px 12px;
+      margin-top:6px;
+      border-radius:8px;
+      border:1px solid #cbd5e1;
+      font-size:15px;
+      transition:0.3s;
+    }
+    input:focus{border-color:#2563eb;outline:none;box-shadow:0 0 0 2px rgba(37,99,235,0.3)}
+    .btn{
+      margin-top:18px;
+      width:100%;
+      padding:12px;
+      border-radius:8px;
+      border:none;
+      background:#2563eb;
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+      transition:background 0.3s;
+    }
+    .btn:hover{background:#1d4ed8}
+    .muted{margin-top:12px;font-size:13px;color:#64748b;text-align:center}
+    a.link{color:#2563eb;text-decoration:none;font-weight:600;cursor:pointer}
+    .error{color:#b91c1c;margin-top:10px;text-align:center}
+    .success{color:#065f46;margin-top:10px;text-align:center}
+
+    /* Hide & Animate */
+    .hidden{display:none}
+    .fadeIn{animation:fadeIn 0.6s ease forwards;}
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating animation background -->
+  <div class="bg">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="wrap fadeIn">
+    <!-- Login Form -->
+    <div id="loginForm">
+      <h2>Log in</h2>
+      <div id="loginError" class="error hidden"></div>
+
+      <label>Email</label>
+      <input id="loginEmail" type="email" placeholder="you@example.com" required />
+
+      <label>Password</label>
+      <input id="loginPassword" type="password" placeholder="your password" required />
+
+      <button id="loginBtn" class="btn">Sign in</button>
+
+      <div class="muted">Don't have an account? <a class="link" onclick="toggleForms('signup')">Sign up</a></div>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" class="hidden">
+      <h2>Sign up</h2>
+      <div id="signupMsg" class="error hidden"></div>
+
+      <label>Full Name</label>
+      <input id="signupName" type="text" placeholder="Your name" />
+
+      <label>Email</label>
+      <input id="signupEmail" type="email" placeholder="you@example.com" required />
+
+      <label>Password</label>
+      <input id="signupPassword" type="password" placeholder="At least 6 characters" required />
+
+      <label>Confirm Password</label>
+      <input id="signupConfirm" type="password" placeholder="Repeat password" required />
+
+      <button id="signupBtn" class="btn">Create account</button>
+
+      <div class="muted">Already have an account? <a class="link" onclick="toggleForms('login')">Log in</a></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleForms(which){
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('signupForm').classList.add('hidden');
+      const target = (which==='login')? 'loginForm':'signupForm';
+      const el = document.getElementById(target);
+      el.classList.remove('hidden');
+      el.classList.add('fadeIn');
+      setTimeout(()=>el.classList.remove('fadeIn'),600);
+    }
+
+    function showMsg(id, msg, isError=true){
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      el.className = isError ? 'error' : 'success';
+    }
+
+    // Login
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const password = document.getElementById('loginPassword').value;
+
+      if(!email || !password){
+        showMsg('loginError','Please enter email and password.');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const matched = users.find(u => u.email === email && u.password === password);
+
+      if(!matched){
+        showMsg('loginError','Wrong email or password.');
+        return;
+      }
+
+      localStorage.setItem('loggedInUser', JSON.stringify({ email: matched.email, name: matched.name || '' }));
+      window.location.href = 'index.html';
+    });
+
+    // Signup
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+      const password = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirm').value;
+
+      if(!email || !password || !confirm){
+        showMsg('signupMsg','Please fill all required fields.');
+        return;
+      }
+      if(password.length < 6){
+        showMsg('signupMsg','Password must be at least 6 characters.');
+        return;
+      }
+      if(password !== confirm){
+        showMsg('signupMsg','Passwords do not match.');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      if(users.find(u => u.email === email)){
+        showMsg('signupMsg','An account with this email already exists.');
+        return;
+      }
+
+      const newUser = { name, email, password };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('loggedInUser', JSON.stringify({ email, name }));
+
+      window.location.href = 'index.html';
+    });
+
+    // Enter key triggers
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){
+        if(!document.getElementById('loginForm').classList.contains('hidden'))
+          document.getElementById('loginBtn').click();
+        else
+          document.getElementById('signupBtn').click();
+      }
+    });
+  </script>
+</body>
+</html>
